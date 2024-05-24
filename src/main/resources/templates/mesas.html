@@ -25,7 +25,7 @@
                 <td th:text="${mesa.getNombre()}"></td>
                 <td th:text="${mesa.getCapacidad()}"></td>
                 <td th:text="${mesa.getUbicacion()}"></td>
-                <td th:text="${mesa.getDisponibles()}"></td>
+                <td th:text="${mesa.getDisponibles()==0?'No hay disponibles':mesa.getDisponibles()}"></td>
                 <td class="d-flex" sec:authorize="hasAnyAuthority('ADMIN')">
                     <a class="btn btn-primary me-1" th:href="@{'/mesas/editar?id='+${mesa.getId()}}">Editar</a>
                     <a class="btn btn-danger ms-1" th:href="@{'/mesas/eliminar?id='+${mesa.getId()}}">Eliminar</a>

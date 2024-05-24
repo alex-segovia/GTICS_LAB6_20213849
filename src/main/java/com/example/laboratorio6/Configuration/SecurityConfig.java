@@ -69,7 +69,8 @@ public class SecurityConfig {
 
         http.authorizeHttpRequests()
                 .requestMatchers("/mesas/*").hasAnyAuthority("ADMIN")
-                .requestMatchers("/reservas","/reservas/**").hasAnyAuthority("GERENTE","CLIENTE")
+                .requestMatchers("/reservas").hasAnyAuthority("GERENTE","CLIENTE")
+                .requestMatchers("/reservas/*").hasAnyAuthority("CLIENTE")
                 .anyRequest().permitAll();
 
         return http.build();
