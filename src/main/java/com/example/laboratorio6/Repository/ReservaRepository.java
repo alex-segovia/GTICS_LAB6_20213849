@@ -11,4 +11,7 @@ import java.util.List;
 public interface ReservaRepository extends JpaRepository<Reserva,Integer> {
     @Query(nativeQuery = true,value = "select * from reserva where idusuario=?1")
     List<Reserva> listarReservasPorCliente(int id);
+
+    @Query(nativeQuery = true,value = "select * from reserva where idmesa=?1")
+    List<Reserva> listarReservasPorMesa(int id);
 }

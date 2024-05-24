@@ -1,7 +1,9 @@
 package com.example.laboratorio6.Controller;
 
 import com.example.laboratorio6.Entity.Mesa;
+import com.example.laboratorio6.Entity.Reserva;
 import com.example.laboratorio6.Repository.MesaRepository;
+import com.example.laboratorio6.Repository.ReservaRepository;
 import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,9 +20,12 @@ import java.util.Optional;
 @Controller
 public class MesaController {
     final MesaRepository mesaRepository;
+    final ReservaRepository reservaRepository;
 
-    public MesaController(MesaRepository mesaRepository){
+    public MesaController(MesaRepository mesaRepository,
+                          ReservaRepository reservaRepository){
         this.mesaRepository = mesaRepository;
+        this.reservaRepository = reservaRepository;
     }
 
     @GetMapping(value = "/mesas")
@@ -88,8 +93,13 @@ public class MesaController {
     public String eliminar(@RequestParam("id") int id, RedirectAttributes attr){
         Optional<Mesa> optionalMesa = mesaRepository.findById(id);
         if(optionalMesa.isPresent()){
-            mesaRepository.deleteById(id);
-            attr.addFlashAttribute("mensaje","Mesa eliminada exitosamente");
+            List<Reserva> listaReservas = reservaRepository.listarReservasPorMesa(id);
+            if(listaReservas.isEmpty()){
+                mesaRepository.deleteById(id);
+                attr.addFlashAttribute("mensaje","Mesa eliminada exitosamente");
+            }else{
+                attr.addFlashAttribute("mensaje","No se puede eliminar la mesa, ya que ha sido reservada");
+            }
         }
         return "redirect:/mesas";
     }
