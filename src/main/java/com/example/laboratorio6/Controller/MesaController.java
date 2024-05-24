@@ -78,7 +78,7 @@ public class MesaController {
                 int nuevoDisponibles = mesa.getDisponibles() + diferencia;
                 mesa.setDisponibles(nuevoDisponibles);
             }
-            attr.addFlashAttribute("mensaje","Mesa " + (mesa.getId()==null?"agregado ":"editado ") + "exitosamente");
+            attr.addFlashAttribute("mensaje","Mesa " + (mesa.getId()==null?"agregada ":"editada ") + "exitosamente");
             mesaRepository.save(mesa);
             return "redirect:/mesas";
         }
